@@ -5,7 +5,7 @@ import os
 import time
 
 os.system("@echo off")
-temizle = lambda: os.system("cls")
+temizle = lambda: os.system("clear||cls")
 baslat = lambda: os.system("py ipsorgu.py")
 
 def check(): 
