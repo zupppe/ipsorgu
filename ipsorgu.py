@@ -30,7 +30,7 @@ if geri_don == ("+"):
 if geri_don == ("-"):
     temizle()
     os.chdir("..")
-    os.system("py tools.py")
+    os.system("python multitool.py")
 if geri_don != ("+","-"):
     temizle()
     print(Fore.LIGHTRED_EX + "Hata Tespit Edildi En Başa Yönlendiriliyorsunuz... @zupppe")
