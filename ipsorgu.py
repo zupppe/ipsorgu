@@ -6,7 +6,7 @@ import time
 
 os.system("@echo off")
 temizle = lambda: os.system("clear||cls")
-baslat = lambda: os.system("py ipsorgu.py")
+baslat = lambda: os.system("python ipsorgu.py")
 
 def check(): 
     r = requests.get("https://ipinfo.io/") 
