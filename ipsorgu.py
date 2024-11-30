@@ -1,38 +1,63 @@
 import requests
-import colorama
+import json
+from time import sleep
+from os import system, chdir
 from colorama import Fore
-import os
-import time
+import keyboard
 
-os.system("@echo off")
-temizle = lambda: os.system("clear||cls")
-baslat = lambda: os.system("python ipsorgu.py")
+sil = lambda: system("cls")
+dark = Fore.LIGHTBLACK_EX
+red = Fore.RED
+system("title Ip Lookup by @zupppe")
+sil()
 
-def check(): 
-    r = requests.get("https://ipinfo.io/") 
-    if r.status_code == 200: 
-        print(Fore.GREEN + "\n[+] Sunucu Çevrimiçi!\n") 
+def ipsorgu():
+    soru = input(red + "Hedef Ip Adresini Giriniz: {}".format(dark))
+    sil()
+
+    sonuc = requests.get("https://ipinfo.io/widget/demo/{}".format(soru))
+    sonuc2 = json.loads(sonuc.text)
+
+    if sonuc.status_code == 200:
+        print(red + "İp Adresi:", dark +  sonuc2["data"]["ip"])
+        print(red + "Ülke:", dark + sonuc2["data"]["country"])      
+        print(red + "Şehir:", dark  + sonuc2["data"]["city"])
+        print(red + "Posta Kodu:", dark + sonuc2["data"]["postal"])
+        print(red + "Yakın Konum:", dark + sonuc2["data"]["loc"])
+        print(red + "Hizmet:", dark + sonuc2["data"]["asn"]["name"])
+        print(red + "Hizmet Domaini:", dark + sonuc2["data"]["asn"]["domain"])
+        if sonuc2["data"]["privacy"]["vpn"] == False:
+            print("{}Vpn: {}Kapalı".format(red, dark))
+            print(red + "Portör/Nakleyici:", dark + sonuc2["data"]["carrier"]["name"])
+        else:
+            print("{}Vpn: {}Açık".format(red, dark))
+        if sonuc2["data"]["privacy"]["proxy"] == False:
+            print("{}Proxy: {}Kapalı".format(red, dark))
+        else:
+            print("{}Proxy: {}Açık".format(red, dark))
+        if sonuc2["data"]["privacy"]["tor"] == False:
+            print("{}Tor Tarayıcı: {}Kapalı".format(red, dark))
+        else:
+
+            print("{}Tor Tarayıcı: {}Açık".format(red, dark))
+        print("""
+              
+                    {}Anamenüye dönmek için {}-{}, Yeni sorgu için {}+ {}tuşuna basınız..{}
+              """.format(red, dark, red, dark, red, dark))
+    while True:
+        if keyboard.is_pressed('+'):
+            sil()
+            ipsorgu()
+            keyboard.wait('+')
+        elif keyboard.is_pressed('-'):
+            sil()
+            chdir("..")
+            chdir("..")
+            system("python multitool.py")
+            keyboard.wait('-')
     else:
-        print(Fore.RED + "\n[!] Sunucu Çevrimdışı!\n") 
-        exit() 
-
-ip = input(Fore.BLUE + "Lütfen hedef ip giriniz: ") 
-
-check()
-
-ip_cikti = requests.get("https://ipinfo.io/widget/demo/{}".format(ip)).text
-print(str(ip_cikti))
-
-geri_don = input("{}Yeni Sorgu İçin {}+{}, Ana Menü İçin {}- {}Tuşlayınız {}+{}/{}-{}: {}".format(Fore.BLUE, Fore.GREEN, Fore.BLUE, Fore.RED, Fore.BLUE, Fore.GREEN, Fore.BLUE, Fore.RED, Fore.BLUE, Fore.RESET))
-if geri_don == ("+"):
-    temizle()
-    baslat()
-if geri_don == ("-"):
-    temizle()
-    os.chdir("..")
-    os.system("python multitool.py")
-if geri_don != ("+","-"):
-    temizle()
-    print(Fore.LIGHTRED_EX + "Hata Tespit Edildi En Başa Yönlendiriliyorsunuz... @zupppe")
-    time.sleep(3)
-    baslat()
+        print(red + "Hatalı ip adresi..")
+        sleep(3)
+        sil()
+        ipsorgu()
+ipsorgu()
