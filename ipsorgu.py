@@ -28,7 +28,6 @@ def ipsorgu():
         print(red + "Hizmet Domaini:", dark + sonuc2["data"]["asn"]["domain"])
         if sonuc2["data"]["privacy"]["vpn"] == False:
             print("{}Vpn: {}Kapalı".format(red, dark))
-            print(red + "Portör/Nakleyici:", dark + sonuc2["data"]["carrier"]["name"])
         else:
             print("{}Vpn: {}Açık".format(red, dark))
         if sonuc2["data"]["privacy"]["proxy"] == False:
